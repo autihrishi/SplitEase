@@ -91,7 +91,8 @@ button:hover {
   overflow-x: auto;
 }
 
-table {
+/* Expense table styles */
+.expense-table {
   margin-top: 20px;
   margin-bottom: 20px;
   border-collapse: collapse;
@@ -99,12 +100,21 @@ table {
   background-color: #fff;
   table-layout: auto;
   word-wrap: break-word;
+  border: 2px solid black; /* Outer border */
 }
 
-table, th, td {
-  border: 2px solid #444;
+.expense-table th, .expense-table td {
+  border: 1px solid black; /* Inner cell borders */
   padding: 10px;
   text-align: center;
+}
+
+.expense-table td:last-child {
+  border-right: 2px solid black; /* Right border for last cell */
+}
+
+.expense-table tr:last-child td {
+  border-bottom: 2px solid black; /* Bottom border for last row */
 }
 
 pre {

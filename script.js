@@ -78,74 +78,95 @@ function createTable(numPeople) {
 }
 
 function calculate() {
-  const inputs = document.querySelectorAll('.expense-table input[type="number"]');
-  const rowHeaders = document.querySelectorAll('.expense-table tr td:first-child');
+    const inputs = document.querySelectorAll('.expense-table input[type="number"]');
+    const rowHeaders = document.querySelectorAll('.expense-table tr td:first-child');
 
-  if (inputs.length === 0) {
-    alert('Please create the table first.');
-    return;
-  }
-
-  const n = rowHeaders.length;
-  const matrix = Array.from({ length: n }, () => Array(n).fill(0));
-
-  inputs.forEach(input => {
-    const row = parseInt(input.dataset.row);
-    const col = parseInt(input.dataset.col);
-    const val = parseFloat(input.value) || 0;
-    matrix[row][col] = val;
-  });
-
-  // Calculate balances = money paid - money received
-  const balances = new Array(n).fill(0);
-  for (let i = 0; i < n; i++) {
-    for (let j = 0; j < n; j++) {
-      balances[i] += matrix[i][j]; // money paid by i
-      balances[i] -= matrix[j][i]; // money received by i
+    if (inputs.length === 0) {
+        alert('Please create the table first.');
+        return;
     }
-  }
 
-  const names = Array.from(rowHeaders).map(td => td.textContent || `Person`);
+    const n = rowHeaders.length;
+    const matrix = Array.from({ length: n }, () => Array(n).fill(0));
 
-  // Separate creditors and debtors
-  const creditors = [];
-  const debtors = [];
+    inputs.forEach(input => {
+        const row = parseInt(input.dataset.row);
+        const col = parseInt(input.dataset.col);
+        const val = parseFloat(input.value) || 0;
+        matrix[row][col] = val;
+    });
 
-  for (let i = 0; i < n; i++) {
-    if (balances[i] > 0.01) {
-      creditors.push({ index: i, amount: balances[i] });
-    } else if (balances[i] < -0.01) {
-      debtors.push({ index: i, amount: -balances[i] });
+    const balances = new Array(n).fill(0);
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            balances[i] += matrix[i][j]; 
+            balances[i] -= matrix[j][i]; 
+        }
     }
-  }
 
-  let i = 0, j = 0;
-  let resultText = 'Minimized transactions to settle debts:\n';
+    const names = Array.from(rowHeaders).map(td => td.textContent || `Person`);
 
-  while (i < debtors.length && j < creditors.length) {
-    const debtor = debtors[i];
-    const creditor = creditors[j];
+    const creditors = [];
+    const debtors = [];
 
-    const amount = Math.min(debtor.amount, creditor.amount);
+    for (let i = 0; i < n; i++) {
+        if (balances[i] > 0.01) {
+            creditors.push({ index: i, amount: balances[i] });
+        } else if (balances[i] < -0.01) {
+            debtors.push({ index: i, amount: -balances[i] });
+        }
+    }
 
-    // Debtor pays creditor
-    resultText += `${names[debtor.index]} pays ${names[creditor.index]}: ₹${amount.toFixed(2)}\n`;
+    let i = 0, j = 0;
+    let resultText = 'Minimized transactions to settle debts:\n';
 
-    debtor.amount -= amount;
-    creditor.amount -= amount;
+    while (i < debtors.length && j < creditors.length) {
+        const debtor = debtors[i];
+        const creditor = creditors[j];
 
-    if (debtor.amount < 0.01) i++;
-    if (creditor.amount < 0.01) j++;
-  }
+        const amount = Math.min(debtor.amount, creditor.amount);
 
-  if (resultText.trim() === 'Minimized transactions to settle debts:') {
-    resultText = 'All settled up! No transactions needed.';
-  }
+        resultText += `${names[debtor.index]} pays ${names[creditor.index]}: ₹${amount.toFixed(2)}\n`;
 
-  document.getElementById('results').textContent = resultText;
+        debtor.amount -= amount;
+        creditor.amount -= amount;
+
+        if (debtor.amount < 0.01) i++;
+        if (creditor.amount < 0.01) j++;
+    }
+
+    if (resultText.trim() === 'Minimized transactions to settle debts:') {
+        resultText = 'All settled up! No transactions needed.';
+    }
+
+    document.getElementById('results').textContent = resultText;
+
+    // **Reveal the buttons after calculation**
+    document.getElementById('shareButtons').style.display = 'block';
 }
-
 function copyToClipboard() {
   const text = document.getElementById('results').textContent;
   navigator.clipboard.writeText(text).then(() => alert('Result copied!'));
+}
+
+function downloadPDF() {
+    const element = document.createElement('div');
+    element.appendChild(document.getElementById('tableContainer').cloneNode(true));
+    element.appendChild(document.getElementById('results').cloneNode(true));
+
+    document.body.appendChild(element);
+
+    // Calculate dimensions dynamically
+    const contentWidth = element.scrollWidth + 20; // Add some padding
+    const contentHeight = element.scrollHeight + 20;
+
+    html2pdf().set({
+        margin: 5,
+        filename: 'Expense_Split.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, scrollY: 0 },
+        jsPDF: { unit: 'mm', format: [contentWidth, contentHeight], orientation: 'landscape' } // Dynamic format
+    }).from(element).save().then(() => {
+        document.body.removeChild(element); // Cleanup temporary elements
+    });
 }

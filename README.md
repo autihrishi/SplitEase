@@ -65,4 +65,4 @@ Contributions, issues, and feature requests are welcome! Feel free to check [iss
 
 ## Contact
 
-If you have any questions or want to connect, feel free to reach out via GitHub or email.
+If you have any questions or want to connect, feel free to reach out via GitHub or other social handles.

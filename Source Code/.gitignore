@@ -1,0 +1,17 @@
+# Ignore editor settings
+.vscode/
+.idea/
+
+# Ignore OS-generated files
+.DS_Store
+Thumbs.db
+
+# Ignore backups or temp files
+*~
+*.swp
+*.bak
+*.tmp
+
+# Ignore test folders
+SplitEase copy/
+SplitEase-test/

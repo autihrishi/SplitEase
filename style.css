@@ -1,19 +1,42 @@
+/* Color variables for light mode */
+:root {
+  --bg: #f5f0e6;
+  --fg: #222;
+  --header: #2d1e2f;
+  --subheader: #5c4a72;
+  --input-bg: #fffbe6;
+  --input-border: #999;
+  --input-bg-alt: #fefadc;
+  --button-bg: #6a4e77;
+  --button-hover: #8a658f;
+  --button-fg: #fff;
+  --button-border: #222;
+  --button-shadow: #999;
+  --button-shadow-hover: #777;
+  --table-bg: #fff;
+  --table-border: black;
+  --pre-bg: #fffbe6;
+  --pre-border: #777;
+  --error: red;
+}
+
 body {
   font-family: 'Courier Prime', monospace;
-  background-color: #f5f0e6;
-  color: #222;
+  background-color: var(--bg);
+  color: var(--fg);
   max-width: 1000px;
   margin: 40px auto;
   padding: 20px;
   text-align: left;
   border: 4px double #444;
   background-image: url('https://www.transparenttextures.com/patterns/old-wall.png');
+  transition: background 0.3s, color 0.3s;
 }
 
 .header {
   text-align: center;
   font-family: 'Press Start 2P', cursive;
-  color: #2d1e2f;
+  color: var(--header);
   margin-bottom: 30px;
 }
 
@@ -27,7 +50,7 @@ h2 {
   font-size: 1em;
   margin-top: 0.2em;
   margin-bottom: 1.5em;
-  color: #5c4a72;
+  color: var(--subheader);
   text-align: center;
 }
 
@@ -38,10 +61,11 @@ label, input, button, pre {
 input[type="number"], input[type="text"] {
   padding: 6px;
   margin: 6px;
-  background-color: #fffbe6;
-  border: 1px solid #999;
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
   border-radius: 4px;
   font-size: 14px;
+  color: var(--fg);
 }
 
 .name-inputs {
@@ -52,14 +76,15 @@ input[type="number"], input[type="text"] {
 .name-inputs p {
   margin-bottom: 8px;
   font-weight: bold;
+  color: var(--fg);
 }
 
 .name-inputs input[type="text"] {
   margin: 5px 10px 10px 0;
   padding: 6px;
   border-radius: 4px;
-  border: 1px solid #999;
-  background-color: #fefadc;
+  border: 1px solid var(--input-border);
+  background-color: var(--input-bg-alt);
   font-size: 14px;
 }
 
@@ -68,23 +93,24 @@ button {
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
-  background-color: #6a4e77;
-  color: #fff;
-  border: 2px dashed #222;
+  background-color: var(--button-bg);
+  color: var(--button-fg);
+  border: 2px dashed var(--button-border);
   border-radius: 8px;
-  box-shadow: 3px 3px 0 #999;
-  transition: all 0.2s ease-in-out;
+  box-shadow: 3px 3px 0 var(--button-shadow);
+  transition: all 0.2s, background 0.3s, color 0.3s;
 }
 
 button:hover {
-  background-color: #8a658f;
+  background-color: var(--button-hover);
   transform: translate(-2px, -2px);
-  box-shadow: 5px 5px 0 #777;
+  box-shadow: 5px 5px 0 var(--button-shadow-hover);
 }
 
 .share-buttons {
   margin-top: 30px;
   text-align: left;
+  color: var(--fg);
 }
 
 .table-container {
@@ -97,36 +123,92 @@ button:hover {
   margin-bottom: 20px;
   border-collapse: collapse;
   width: 100%;
-  background-color: #fff;
+  background-color: var(--table-bg);
   table-layout: auto;
   word-wrap: break-word;
-  border: 2px solid black; /* Outer border */
+  border: 2px solid var(--table-border);
 }
 
 .expense-table th, .expense-table td {
-  border: 1px solid black; /* Inner cell borders */
+  border: 1px solid var(--table-border);
   padding: 10px;
   text-align: center;
+  color: var(--fg);
 }
 
 .expense-table td:last-child {
-  border-right: 2px solid black; /* Right border for last cell */
+  border-right: 2px solid var(--table-border);
 }
 
 .expense-table tr:last-child td {
-  border-bottom: 2px solid black; /* Bottom border for last row */
+  border-bottom: 2px solid var(--table-border);
 }
 
 pre {
-  background-color: #fffbe6;
-  border: 1px dashed #777;
+  background-color: var(--pre-bg);
+  border: 1px dashed var(--pre-border);
   padding: 10px;
   white-space: pre-wrap;
   border-radius: 4px;
 }
 
 .error-msg {
-  color: red;
+  color: var(--error);
   font-weight: bold;
   margin-top: 10px;
+}
+
+/* Dark mode overrides */
+body.dark-mode {
+  --bg: #18171c;
+  --fg: #e0e0e0;
+  --header: #e0c3fc;
+  --subheader: #b39ddb;
+  --input-bg: #232136;
+  --input-border: #444;
+  --input-bg-alt: #2a273f;
+  --button-bg: #3e2c4a;
+  --button-hover: #5c4a72;
+  --button-fg: #fff;
+  --button-border: #e0c3fc;
+  --button-shadow: #222;
+  --button-shadow-hover: #444;
+  --table-bg: #232136;
+  --table-border: #b39ddb;
+  --pre-bg: #232136;
+  --pre-border: #b39ddb;
+  --error: #ff5370;
+}
+
+/* Toggle button style */
+.dark-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  background: var(--button-bg);
+  color: var(--button-fg);
+  border: 2px solid var(--button-border);
+  border-radius: 50px;
+  padding: 8px 18px;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--button-shadow);
+  transition: background 0.3s, color 0.3s;
+}
+
+.dark-toggle:hover {
+  background: var(--button-hover);
+}
+
+.header, h1, h2, label, .input-section, .share-buttons, .row-name, .column-name, .expense-table th, .expense-table td, input, button, pre {
+  color: inherit;
+}
+
+.input-section, .share-buttons {
+  color: var(--fg);
+}
+
+.expense-table th, .expense-table td, .row-name, .column-name {
+  color: var(--fg);
 }

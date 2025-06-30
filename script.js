@@ -221,7 +221,6 @@ function downloadPDF() {
         }).from(element).save().then(() => {document.body.removeChild(element);
     });
 }
-
 function setDarkMode(enabled) {
       if (enabled) {
         document.body.classList.add('dark-mode');

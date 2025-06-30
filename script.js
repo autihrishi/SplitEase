@@ -221,3 +221,23 @@ function downloadPDF() {
         }).from(element).save().then(() => {document.body.removeChild(element);
     });
 }
+
+function setDarkMode(enabled) {
+      if (enabled) {
+        document.body.classList.add('dark-mode');
+        document.querySelector('.dark-toggle').textContent = '☀️ Light Mode';
+      } else {
+        document.body.classList.remove('dark-mode');
+        document.querySelector('.dark-toggle').textContent = '🌙 Dark Mode';
+      }
+    }
+    function toggleDarkMode() {
+      const isDark = document.body.classList.toggle('dark-mode');
+      setDarkMode(isDark);
+      localStorage.setItem('darkMode', isDark ? '1' : '0');
+    }
+    // On load, set mode from localStorage
+    (function() {
+      const dark = localStorage.getItem('darkMode') === '1';
+      setDarkMode(dark);
+    })();

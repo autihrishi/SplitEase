@@ -182,10 +182,8 @@ body.dark-mode {
 
 /* Toggle button style */
 .dark-toggle {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 100;
+  position:absolute;
+  right:130px;
   background: var(--button-bg);
   color: var(--button-fg);
   border: 2px solid var(--button-border);
